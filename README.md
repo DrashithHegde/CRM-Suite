@@ -50,7 +50,7 @@ Tech stack
 
 Project structure
 -----------------
-FUTURE_FS_02/
+FUTURE_FS_03/
 - backend/ — Express API, Prisma schema and seed scripts
 - frontend/ — React single-page app (SPA)
 - database/ — SQL schema and seed resources
