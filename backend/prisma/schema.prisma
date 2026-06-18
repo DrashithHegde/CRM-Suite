@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  password_hash String
+  full_name     String
+  role          String   @default("user")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  activities    Activity[]
+}
+
+model Company {
+  id         Int      @id @default(autoincrement())
+  name       String
+  industry   String?
+  website    String?
+  phone      String?
+  address    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  contacts   Contact[]
+  deals      Deal[]
+}
+
+model Contact {
+  id         Int      @id @default(autoincrement())
+  company_id Int?
+  first_name String
+  last_name  String
+  email      String?
+  phone      String?
+  position   String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  company    Company? @relation(fields: [company_id], references: [id])
+  deals      Deal[]
+}
+
+model Deal {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  company_id         Int
+  contact_id         Int?
+  value              Float?
+  stage              String   @default("lead")
+  expected_close_date DateTime?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+  company            Company  @relation(fields: [company_id], references: [id])
+  contact            Contact? @relation(fields: [contact_id], references: [id])
+  activities         Activity[]
+}
+
+model Activity {
+  id           Int      @id @default(autoincrement())
+  deal_id      Int?
+  user_id      Int?
+  type         String
+  subject      String
+  description  String?
+  due_date     DateTime?
+  is_completed Boolean  @default(false)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+  deal         Deal?    @relation(fields: [deal_id], references: [id])
+  user         User?    @relation(fields: [user_id], references: [id])
+}
+
+model Lead {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String   @unique
+  phone      String?
+  source     String   @default("website_form")
+  status     String   @default("new")
+  // notes replaced by tags relationship
+  tags       Tag[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  leads Lead[]
+}
