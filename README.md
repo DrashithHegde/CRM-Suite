@@ -23,12 +23,26 @@
 
 
 
-CRM Suite
+CRM Suite — Lead Management
 
-Minimal instructions:
+What it is
+- A simple CRM for tracking leads, follow-ups, and conversions with a small analytics dashboard.
 
-- Start Postgres (docker-compose included).
-- Run backend: `npm --prefix backend run dev`
-- Run frontend: `npm --prefix frontend start`
+Key features
+- Lead listing, status updates, and tags
+- CSV export of leads
+- Basic analytics (conversion rate, trends)
+- User management and role-based access
+- Real-time notifications via WebSockets
 
-That's it.
+Tech stack
+- Backend: Node.js, Express, Prisma, PostgreSQL
+- Frontend: React, Tailwind-like utilities, Chart.js
+- Dev: Docker (Postgres), npm scripts
+
+Quick start
+- Start Postgres: `docker-compose up -d`
+- Backend: `npm --prefix backend run dev`
+- Frontend: `npm --prefix frontend start`
+
+That's all.
